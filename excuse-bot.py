@@ -4,12 +4,6 @@ import random
 
 bot = commands.Bot(command_prefix='$')
 
-with open("excuses.txt") as f:
-    lines = f.readlines()
-
-# lines = open("excuses.txt").read().splitlines()
-myline =random.choice(lines)
-
 @bot.event
 async def on_ready():
     print('Logged in as')
@@ -19,6 +13,10 @@ async def on_ready():
 
 @bot.command()
 async def excuse(ctx):
+    with open("excuses.txt") as f:
+        lines = f.readlines()
+
+    myline = random.choice(lines)
     await ctx.send(myline)
 
 @bot.command()
@@ -40,7 +38,7 @@ async def info(ctx):
     embed.add_field(name="Server count", value=f"{len(bot.guilds)}")
 
     # give users a link to invite this bot to their server
-    embed.add_field(name="Invite", value="") # discord-bot invite link goes here
+    embed.add_field(name="Invite", value="") # invite code goes here.
 
     await ctx.send(embed=embed)
 
@@ -49,9 +47,8 @@ bot.remove_command('help')
 @bot.command()
 async def help(ctx):
     embed = discord.Embed(title="Excuse Bot", description="Features:", color=0xeee657)
-
     embed.add_field(name="$excuse", value="Generates a random excuse from the excuses repository", inline=False)
-        embed.add_field(name="$greet", value="The welcoming you deserve", inline=False)
+    embed.add_field(name="$greet", value="The welcoming you deserve", inline=False)
     embed.add_field(name="$info", value="Bot info/statistics", inline=False)
     embed.add_field(name="$help", value="Gives this message", inline=False)
 
